@@ -55,7 +55,7 @@ function Login() {
             <div className='flex items-center justify-center max-w-7xl mx-auto'>
                 <form
                     onSubmit={submitHandler}
-                    className='w-1/2 border-gray-200 rounded-md p-4 my-10'
+                    className='my-10 w-full max-w-xl rounded-md border border-gray-200 p-4 md:w-1/2'
                 >
                     <h1 className='font-bold text-xl mb-5 underline shadow-[2px_2px_2px_green]'>
                         Login

@@ -4,7 +4,7 @@ import { Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
 const Footer = () => {
   return (
     <footer className="bg-gray-100 border-t border-gray-300 py-6 mt-10">
-      <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
+      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 md:flex-row">
         <div className="text-xl font-semibold">
           Job<span className="text-green-500">Sphere</span>
         </div>

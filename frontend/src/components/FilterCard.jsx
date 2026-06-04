@@ -35,8 +35,8 @@ useEffect(()=>{
 }, [selectedValue])
 
     return (
-        <div>
-            <h1>Filter Jobs</h1>
+        <div className='rounded-lg border border-gray-200 bg-white p-4 shadow-sm'>
+            <h1 className='text-lg font-semibold'>Filter Jobs</h1>
             <hr className='mt-3' />
             <RadioGroup  value={selectedValue} onValueChange= {changeHandler}>
                 {

@@ -19,14 +19,14 @@ function CategoryCarousel() {
             navigate('/browse')
         }
     return (
-        <div>
-            <Carousel className='w-full max-w-xl mx-auto my-20 ' >
+        <div className='px-4'>
+            <Carousel className='mx-auto my-20 w-full max-w-5xl'>
 
                 <CarouselContent>
                     {
                         category.map((cat, index) => (
-                            <CarouselItem className='md:basis-1/2 lg-basis-1/3'>
-                                <Button onClick ={()=>searchJobHandler(cat)} variant="outline" className='rounded-full border border-green-400'>{cat}</Button>
+                            <CarouselItem key={`${cat}-${index}`} className='basis-full sm:basis-1/2 lg:basis-1/3'>
+                                <Button onClick ={()=>searchJobHandler(cat)} variant="outline" className='w-full rounded-full border border-green-400 px-4 py-2 text-sm sm:text-base'>{cat}</Button>
                             </CarouselItem>
 
                         ))

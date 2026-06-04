@@ -30,13 +30,13 @@ const Navbar = () => {
         }
     }
     return (
-        <div className='bg-white'>
-            <div className='flex items-center justify-between mx-auto max-w-7xl h-16'>
+        <div className='bg-white border-b border-gray-100'>
+            <div className='mx-auto flex min-h-16 max-w-7xl flex-col gap-3 px-4 py-3 md:flex-row md:items-center md:justify-between'>
                 <div>
-                    <h1 className=' text-2xl font-bold font-sans'>Job<span className='text-green-500'>Sphere</span></h1>
+                    <h1 className='text-xl font-bold font-sans sm:text-2xl'>Job<span className='text-green-500'>Sphere</span></h1>
                 </div>
-                <div className='flex items-center gap-12'>
-                    <ul className='flex font-medium items-center gap-5 '>
+                <div className='flex flex-col gap-3 md:flex-row md:items-center md:gap-8'>
+                    <ul className='flex flex-wrap items-center gap-2 text-sm sm:gap-3 md:gap-5 md:text-base'>
                         {
                             user && user.role === 'recruiter' ? (
                                 <>
@@ -55,7 +55,7 @@ const Navbar = () => {
                     </ul>
                     {
                         !user ? (
-                            <div className='flex items-center gap-2'>
+                            <div className='flex flex-wrap items-center gap-2'>
                                 <Link to="/login">
                                     <Button variant="outline">Login</Button>
                                 </Link>
