@@ -119,9 +119,9 @@ function Signup() {
                         />
                     </div>
 
-                    <div className='flex items-center justify-between'>
+                    <div className='flex flex-wrap items-center justify-between gap-4'>
 
-                        <RadioGroup className="flex items-center gap-4 my-5">
+                        <RadioGroup className="flex flex-wrap items-center gap-4 my-5">
 
                             <div className="flex items-center space-x-2">
                                 <Input
@@ -147,11 +147,12 @@ function Signup() {
 
                         </RadioGroup>
 
-                        <div className='flex items-center gap-2'>
+                        <div className='flex flex-wrap items-center gap-2'>
                             <Label>Profile</Label>
                             <Input
                                 type="file"
                                 accept="image/*"
+                                className="min-w-[180px] flex-1"
                                 onChange={changeFileHandler}
                             />
                         </div>
