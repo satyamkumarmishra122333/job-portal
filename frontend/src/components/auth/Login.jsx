@@ -83,7 +83,7 @@ function Login() {
                     </div>
 
                     <div className='flex items-center justify-between'>
-                        <RadioGroup className="flex items-center gap-4 my-5">
+                        <RadioGroup className="my-5 flex flex-col flex-wrap gap-3 sm:flex-row sm:items-center sm:gap-4">
                             <div className="flex items-center space-x-2">
                                 <Input
                                     type="radio"

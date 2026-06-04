@@ -121,7 +121,7 @@ function Signup() {
 
                     <div className='flex flex-col gap-4 md:flex-row md:flex-wrap md:items-center md:justify-between'>
 
-                        <RadioGroup className="my-5 flex flex-wrap items-center gap-4">
+                        <RadioGroup className="my-5 flex flex-col flex-wrap gap-3 sm:flex-row sm:items-center sm:gap-4">
 
                             <div className="flex items-center space-x-2">
                                 <Input
