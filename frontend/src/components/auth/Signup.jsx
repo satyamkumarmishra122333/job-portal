@@ -7,8 +7,6 @@ import { Button } from '../ui/button';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import api from '../utils/axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { setLoading } from '@/redux/authSlice';
 import { Loader2 } from 'lucide-react';
 
 function Signup() {
@@ -22,8 +20,7 @@ function Signup() {
         file: ""
     });
 
-    const { loading } = useSelector(store => store.auth);
-    const dispatch = useDispatch();
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
 
     const changeEventHandler = (e) => {
@@ -49,7 +46,7 @@ function Signup() {
         }
 
         try {
-            dispatch(setLoading(true));
+            setIsSubmitting(true);
 
             const res = await api.post(
                 "/api/v1/user/register",
@@ -65,7 +62,7 @@ function Signup() {
             console.log(error);
             toast.error(error.response?.data?.message || "Signup failed");
         } finally {
-            dispatch(setLoading(false));
+            setIsSubmitting(false);
         }
     };
 
@@ -162,7 +159,7 @@ function Signup() {
                     </div>
 
                     {
-                        loading ? (
+                        isSubmitting ? (
                             <Button className="w-full my-4 bg-green-400" disabled>
                                 <Loader2 className='mr-2 h-4 w-4 animate-spin' />
                                 Please Wait...

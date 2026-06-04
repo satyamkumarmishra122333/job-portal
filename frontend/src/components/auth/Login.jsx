@@ -7,8 +7,8 @@ import { Button } from '../ui/button';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import api from '../utils/axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { setLoading, setUser } from '@/redux/authSlice';
+import { useDispatch } from 'react-redux';
+import { setUser } from '@/redux/authSlice';
 import { Loader } from 'lucide-react';
 
 function Login() {
@@ -18,7 +18,7 @@ function Login() {
         role: "",
     });
 
-    const { loading } = useSelector(store => store.auth);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -30,7 +30,7 @@ function Login() {
         e.preventDefault();
 
         try {
-            dispatch(setLoading(true));
+            setIsSubmitting(true);
 
             const res = await api.post("/api/v1/user/login", input);
 
@@ -44,7 +44,7 @@ function Login() {
             console.log(error);
             toast.error(error.response?.data?.message || "Login failed");
         } finally {
-            dispatch(setLoading(false));
+            setIsSubmitting(false);
         }
     };
 
@@ -109,7 +109,7 @@ function Login() {
                     </div>
 
                     {
-                        loading ? (
+                        isSubmitting ? (
                             <Button className="w-full my-4 bg-green-400" disabled>
                                 <Loader className='mr-2 h-4 w-4 animate-spin' />
                                 Please Wait...
