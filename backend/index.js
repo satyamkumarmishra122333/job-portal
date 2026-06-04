@@ -19,6 +19,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const allowedOrigins = [
+    "https://job-portal-frontend-jff9.onrender.com",
+    "https://job-portal-6a3k.onrender.com",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     process.env.CORS_ORIGIN,
@@ -27,7 +29,11 @@ const allowedOrigins = [
 
 app.use(cors({
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
+        if (
+            !origin ||
+            allowedOrigins.includes(origin) ||
+            origin.endsWith(".onrender.com")
+        ) {
             return callback(null, true);
         }
         return callback(new Error("Not allowed by CORS"));
