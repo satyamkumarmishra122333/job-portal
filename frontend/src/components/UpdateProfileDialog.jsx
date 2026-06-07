@@ -4,8 +4,7 @@ import { Label } from './ui/label'
 import { Button } from './ui/button';
 import { Loader2 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
-import { USER_API_END_POINT } from './utils/constant';
+import api from './utils/axios';
 import { setUser } from '@/redux/authSlice';
 import { toast } from 'sonner';
 
@@ -14,40 +13,41 @@ function UpdateProfileDialog({ open, setOpen }) {
     const [loading, setLoading] = React.useState(false);
     const { user } = useSelector(store => store.auth)
     const [input, setInput] = React.useState({
-        fullname: user?.fullname,
-        email: user?.email,
-        phoneNumber: user?.phoneNumber,
-        bio: user?.profile.bio,
-        skills: user?.profile?.skills?.map(skill => skill),
-        file: user?.profile?.resume
+        fullname: user?.fullname || "",
+        email: user?.email || "",
+        phoneNumber: user?.phoneNumber || "",
+        bio: user?.profile?.bio || "",
+        skills: Array.isArray(user?.profile?.skills) ? user.profile.skills.join(', ') : "",
+        file: null,
     });
     const dispatch = useDispatch();
     const submitHandler = async(e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append("fullname", input.fullname);
-        formData.append("email", input.email);
-        formData.append("phoneNumber", input.phoneNumber);
-        formData.append("bio", input.bio);
-        formData.append("skills", input.skills);
-        if (input.file){
-            formData.append("file" , input.file);
+        formData.append("fullname", input.fullname || "");
+        formData.append("email", input.email || "");
+        formData.append("phoneNumber", input.phoneNumber || "");
+        formData.append("bio", input.bio || "");
+        formData.append("skills", typeof input.skills === 'string' ? input.skills : (input.skills || []).join(', '));
+
+        if (input.file instanceof File) {
+            formData.append("file", input.file);
         }
+
         try {
             setLoading(true)
-            const res = await axios.post(`${USER_API_END_POINT}/profile/update`, formData,{
-                headers:{
-                    'Content-Type':'multipart/form-data'
-                },
-                withCredentials:true
-            } )
+            const res = await api.post("/api/v1/user/profile/update", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
             if(res.data.success){
                 dispatch(setUser(res.data.user));
                 toast.success(res.data.message);
             }
         } catch (error) {
             console.log(error);
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "Profile update failed");
             
         } finally{
             setLoading(false)
@@ -78,7 +78,7 @@ function UpdateProfileDialog({ open, setOpen }) {
                                     <Label htmlFor='name' className='text-right'>Name</Label>
                                     <input
                                         id='name'
-                                        name='name'
+                                        name='fullname'
                                         value={input.fullname}
                                         type='text'
                                         onChange={changeEventHandler}
@@ -103,7 +103,7 @@ function UpdateProfileDialog({ open, setOpen }) {
                                     <input
                                         id='number'
                                         type='number'
-                                        name='number'
+                                        name='phoneNumber'
                                         onChange={changeEventHandler}
                                         value={input.phoneNumber}
                                         className='col-span-3 outline-green-500  border border-gray-700 rounded-sm'

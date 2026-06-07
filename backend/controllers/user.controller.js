@@ -111,6 +111,7 @@ export const login = async (req, res) => {
         }).json({
             message: `Welcome Back ${user.fullname}`,
             user,
+            token,
             success: true
         });
     } catch (error) {
@@ -149,14 +150,17 @@ export const updateProfile = async (req, res) => {
 
         const file = req.file;
 
-        const fileUri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
-            resource_type: 'raw'
-        });
+        let cloudResponse = null;
+        if (file) {
+            const fileUri = getDataUri(file);
+            cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
+                resource_type: 'raw'
+            });
+        }
 
         let skillsArray;
         if (skills) {
-            skillsArray = skills.split(",");
+            skillsArray = skills.split(",").map(skill => skill.trim()).filter(Boolean);
         }
 
         const userId = req.id;
@@ -171,8 +175,8 @@ export const updateProfile = async (req, res) => {
         if (fullname) user.fullname = fullname;
         if (email) user.email = email;
         if (phoneNumber) user.phoneNumber = phoneNumber;
-        if (bio) user.profile.bio = bio;
-        if (skills) user.profile.skills = skillsArray;
+        if (typeof bio !== 'undefined') user.profile.bio = bio;
+        if (typeof skills !== 'undefined') user.profile.skills = skillsArray;
 
         if (cloudResponse) {
             user.profile.resume = cloudResponse.secure_url;

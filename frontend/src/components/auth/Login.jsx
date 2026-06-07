@@ -35,6 +35,9 @@ function Login() {
             const res = await api.post("/api/v1/user/login", input);
 
             if (res.data.success) {
+                if (res.data.token) {
+                    localStorage.setItem("token", res.data.token);
+                }
                 dispatch(setUser(res.data.user));
                 toast.success(res.data.message);
                 navigate("/");
