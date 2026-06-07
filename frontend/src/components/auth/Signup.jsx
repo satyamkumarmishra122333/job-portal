@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../shared/Navbar';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
-import { RadioGroup } from '../ui/radio-group';
+import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { Button } from '../ui/button';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -121,30 +121,20 @@ function Signup() {
 
                     <div className='flex flex-col gap-4 md:flex-row md:flex-wrap md:items-center md:justify-between'>
 
-                        <RadioGroup className="my-5 flex flex-col flex-wrap gap-3 sm:flex-row sm:items-center sm:gap-4">
+                        <RadioGroup
+                            value={input.role}
+                            onValueChange={(value) => setInput({ ...input, role: value })}
+                            className="my-5 flex flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-3"
+                        >
+                            <label className="flex items-center gap-1.5 text-sm">
+                                <RadioGroupItem value="student" id="student-role" />
+                                <Label htmlFor="student-role" className="cursor-pointer">Student</Label>
+                            </label>
 
-                            <div className="flex items-center space-x-2">
-                                <Input
-                                    type="radio"
-                                    name="role"
-                                    value="student"
-                                    checked={input.role === "student"}
-                                    onChange={changeEventHandler}
-                                />
-                                <Label>Student</Label>
-                            </div>
-
-                            <div className="flex items-center space-x-2">
-                                <Input
-                                    type="radio"
-                                    name="role"
-                                    value="recruiter"
-                                    checked={input.role === "recruiter"}
-                                    onChange={changeEventHandler}
-                                />
-                                <Label>Recruiter</Label>
-                            </div>
-
+                            <label className="flex items-center gap-1.5 text-sm">
+                                <RadioGroupItem value="recruiter" id="recruiter-role" />
+                                <Label htmlFor="recruiter-role" className="cursor-pointer">Recruiter</Label>
+                            </label>
                         </RadioGroup>
 
                         <div className='flex flex-col gap-2 md:flex-row md:items-center md:flex-wrap'>
