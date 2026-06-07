@@ -6,7 +6,7 @@ import { LogOut, User2 } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'sonner'
-import axios from 'axios'
+import api from '../utils/axios'
 import { USER_API_END_POINT } from '../utils/constant'
 import { setUser } from '@/redux/authSlice'
 
@@ -18,9 +18,10 @@ const Navbar = () => {
     const navigate = useNavigate()
     const logoutHandler = async () => {
         try {
-            const res = await axios.get(`${USER_API_END_POINT}/logout`, { withCredentials: true })
+            const res = await api.get(`${USER_API_END_POINT}/logout`)
             if (res.data.success) {
                 localStorage.removeItem("token")
+                localStorage.removeItem("user")
                 dispatch(setUser(null))
                 navigate("/");
                 toast.success(res.data.message);

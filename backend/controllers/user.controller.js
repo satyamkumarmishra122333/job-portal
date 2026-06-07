@@ -151,10 +151,12 @@ export const updateProfile = async (req, res) => {
         const file = req.file;
 
         let cloudResponse = null;
+        const isImageUpload = file && file.mimetype?.startsWith('image/');
+
         if (file) {
             const fileUri = getDataUri(file);
             cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
-                resource_type: 'raw'
+                resource_type: isImageUpload ? 'image' : 'raw'
             });
         }
 
@@ -179,8 +181,12 @@ export const updateProfile = async (req, res) => {
         if (typeof skills !== 'undefined') user.profile.skills = skillsArray;
 
         if (cloudResponse) {
-            user.profile.resume = cloudResponse.secure_url;
-            user.profile.resumeOriginalName = file.originalname;
+            if (isImageUpload) {
+                user.profile.profilePhoto = cloudResponse.secure_url;
+            } else {
+                user.profile.resume = cloudResponse.secure_url;
+                user.profile.resumeOriginalName = file.originalname;
+            }
         }
 
         await user.save();

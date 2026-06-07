@@ -43,6 +43,7 @@ function UpdateProfileDialog({ open, setOpen }) {
             });
             if(res.data.success){
                 dispatch(setUser(res.data.user));
+                localStorage.setItem("user", JSON.stringify(res.data.user));
                 toast.success(res.data.message);
             }
         } catch (error) {
@@ -131,13 +132,13 @@ function UpdateProfileDialog({ open, setOpen }) {
                                     />
                                 </div>
                                 <div className='grid grid-cols-4 items-center gap-4'>
-                                    <Label htmlFor='file' className='text-right'>Résumé</Label>
+                                    <Label htmlFor='file' className='text-right'>Resume / Photo</Label>
                                     <input
                                         id='file'
                                         name='file'
                                         type='file'
                                         onChange={fileChangeHandler}
-                                        accept='application/pdf'
+                                        accept='application/pdf,image/*'
                                         className='col-span-3 outline-green-500  border border-gray-700 rounded-sm bg-green-300'
                                     />
                                 </div>
